@@ -28,7 +28,7 @@ module.exports = {
       },
     },
     animation: {
-      modal_topdown: 'modal_topdown 1s ease-in',
+      sentAnswer: 'sentAnswer 1s ease-in',
       loading_spin: 'loading_spin infinite linear',
       menu_apper: 'menu_apper 0.3s ease-in-out',
     },
