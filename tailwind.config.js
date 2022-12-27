@@ -1,6 +1,10 @@
 /* eslint-disable */
 module.exports = {
-  content: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './node_modules/flowbite-react/**/*.js',
+    './pages/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
+  ],
   theme: {
     keyframes: {
       loading_spin: {

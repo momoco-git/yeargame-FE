@@ -1,6 +1,8 @@
 import IO from '@utils/socket';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useRef, useState } from 'react';
+import { useObserver } from 'mobx-react';
+import { mobxstore } from '@utils/store/mobxstore';
 
 export default function Home() {
   const router = useRouter();
@@ -13,6 +15,7 @@ export default function Home() {
     e.preventDefault();
     if (teamRef.current) {
       socket.emit('join_game', { data: teamRef.current.value });
+      mobxstore.setuser(teamRef.current.value);
       router.push(`/waitroom`);
     }
   };
