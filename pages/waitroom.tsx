@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import React, { useMemo, useState } from 'react';
-import ItemsCarousel from 'react-items-carousel';
+import Carousel from 'react-multi-carousel';
 import IO from '@utils/socket';
 import { useRouter } from 'next/router';
 import useStore from '@utils/store/useStore';
@@ -38,6 +39,23 @@ const WaitRoom = () => {
     }
     // router.push(`/game/${data}`);
   });
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 3, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
   return useObserver(() => (
     <>
       {Desktop ? (
@@ -46,15 +64,22 @@ const WaitRoom = () => {
             <p className="font-bold text-3xl"> 게임을 선택해주세요</p>
           </div>
           <div style={{ padding: `0 ${chevronWidth}px` }}>
-            <ItemsCarousel
-              requestToChangeActive={setActiveItemIndex}
-              activeItemIndex={activeItemIndex}
-              numberOfCards={3}
-              gutter={20}
-              leftChevron={<button type="button">{'<'}</button>}
-              rightChevron={<button type="button">{'>'}</button>}
-              outsideChevron
-              chevronWidth={chevronWidth}>
+            <Carousel
+              swipeable={false}
+              draggable={false}
+              showDots={true}
+              responsive={responsive}
+              ssr={true} // means to render carousel on server-side.
+              infinite={true}
+              autoPlay={true}
+              autoPlaySpeed={1000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container"
+              removeArrowOnDeviceType={['tablet', 'mobile']}
+              dotListClass="custom-dot-list-style"
+              itemClass="carousel-item-padding-40-px">
               {mobxstore.gamelist.map((game, idx) => {
                 return (
                   <div
@@ -68,7 +93,8 @@ const WaitRoom = () => {
                   </div>
                 );
               })}
-            </ItemsCarousel>
+            </Carousel>
+            ;
           </div>
         </>
       ) : (
