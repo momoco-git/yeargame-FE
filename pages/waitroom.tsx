@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
 import React, { useMemo, useState } from 'react';
-import Carousel from 'react-multi-carousel';
 import IO from '@utils/socket';
 import { useRouter } from 'next/router';
 import useStore from '@utils/store/useStore';
 import { useObserver } from 'mobx-react';
 import { useMediaQuery } from 'react-responsive';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const WaitRoom = () => {
   const Desktop: boolean = useMediaQuery({ minWidth: 920 });
@@ -19,6 +21,7 @@ const WaitRoom = () => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 40;
   const ToGame = (e: any) => {
+    console.log(e);
     socket.emit('game_in', e.target.id);
     mobxstore.setgame(e.target.id);
   };
@@ -39,22 +42,12 @@ const WaitRoom = () => {
     }
     // router.push(`/game/${data}`);
   });
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-      slidesToSlide: 3, // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-      slidesToSlide: 2, // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      slidesToSlide: 1, // optional, default to 1.
-    },
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
   return useObserver(() => (
     <>
@@ -63,39 +56,50 @@ const WaitRoom = () => {
           <div className="flex w-full h-1/3 justify-center items-center ">
             <p className="font-bold text-3xl"> 게임을 선택해주세요</p>
           </div>
-          <div style={{ padding: `0 ${chevronWidth}px` }}>
-            <Carousel
-              swipeable={false}
-              draggable={false}
-              showDots={true}
-              responsive={responsive}
-              ssr={true} // means to render carousel on server-side.
-              infinite={true}
-              autoPlay={true}
-              autoPlaySpeed={1000}
-              keyBoardControl={true}
-              customTransition="all .5"
-              transitionDuration={500}
-              containerClass="carousel-container"
-              removeArrowOnDeviceType={['tablet', 'mobile']}
-              dotListClass="custom-dot-list-style"
-              itemClass="carousel-item-padding-40-px">
-              {mobxstore.gamelist.map((game, idx) => {
-                return (
-                  <div
-                    id={game}
-                    key={idx}
-                    onClick={(e) => {
-                      ToGame(e);
-                    }}
-                    style={{ height: 300, background: '#EEE' }}>
-                    {game}
-                  </div>
-                );
-              })}
-            </Carousel>
-            ;
-          </div>
+          <Slider {...settings}>
+            <div>
+              <button className="w-full h-1/3 flex justify-center items-center">
+                <img
+                  src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRVFdmpZNGftstd93HpVQ9euoXauL2rmPDm02eIGSC6gh31jXIp35VNWfExDEw4GUNb2kfpn-uEcQ&usqp=CAc "
+                  alt="asd"
+                />
+              </button>
+            </div>
+            <div className="">
+              <div
+                id="인물사진게임"
+                onClick={(e) => {
+                  ToGame(e);
+                }}
+                className="w-full btn flex justify-center items-center ">
+                <div>2</div>
+              </div>
+            </div>
+            <div>
+              <h3>3</h3>
+            </div>
+            <div>
+              <h3>4</h3>
+            </div>
+            <div>
+              <h3>5</h3>
+            </div>
+            <div>
+              <h3>6</h3>
+            </div>
+          </Slider>
+          {/* {mobxstore.gamelist.map((game, idx) => {
+                  return (
+                    <div
+                      id={game}
+                      key={idx}
+                      onClick={(e) => {
+                        ToGame(e);
+                      }}>
+                      {game}
+                    </div>
+                  );
+                })} */}
         </>
       ) : (
         <div className="flex items-center justify-center w-full h-full">

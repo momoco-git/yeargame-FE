@@ -1,7 +1,7 @@
 import axios from 'axios';
 // ${process.env.NEXT_PUBLIC_API_URL}
 export const api = axios.create({
-  baseURL: `https://wirehaired-lapis-forest.glitch.me`,
+  baseURL: `https://port-0-yeargame-nodejs-20z52flc7g810w.gksl2.cloudtype.app`,
 });
 
 api.interceptors.request.use(
