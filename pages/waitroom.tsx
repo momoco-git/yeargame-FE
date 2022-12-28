@@ -23,6 +23,7 @@ const WaitRoom = () => {
   };
   socket.on('game_ready', (data) => {
     console.log('받음', data, router.pathname);
+    mobxstore.setgame(data);
     if (!(router.pathname === '/waitroom')) {
       console.log('여기는 다른곳');
       return;
