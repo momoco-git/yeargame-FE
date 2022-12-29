@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { gameAPI } from '@utils/api';
 import Image from 'next/image';
 
-function GameRoom() {
+function WordGame() {
   const { mobxstore } = useStore();
   const admin = mobxstore.currentUser;
   const userRef = useRef<string[]>([]);
@@ -22,19 +22,21 @@ function GameRoom() {
   }, []);
 
   const getContent = async () => {
-    const res = await gameAPI.getContents();
+    const res = await gameAPI.getWord();
     console.log(res.data);
     return res.data;
   };
 
   const ContentQuery = useQuery([gameMode], getContent, { refetchOnWindowFocus: false });
-  const List = ContentQuery.data?.contents[ItemIndex];
+
+  const List = ContentQuery.data?.contents[0];
+  console.log(List);
   const userList = () => {
     if (admin !== 'admin') {
       socket.emit('getUserList', admin);
     }
   };
-  console.log(List?.imageURL);
+
   useEffect(() => {
     userList();
   }, []);
@@ -117,7 +119,7 @@ function GameRoom() {
           <p>{gameMode}</p> <p>{ItemIndex}번 문제</p>
           <div>
             <div className="">
-              <img src={List?.imageURL} alt="게임" className="w-1/3 m-auto" />
+              <p>{List?.quiz[ItemIndex]}</p>
             </div>
           </div>
         </div>
@@ -133,4 +135,4 @@ function GameRoom() {
   ));
 }
 
-export default GameRoom;
+export default WordGame;

@@ -20,10 +20,10 @@ const WaitRoom = () => {
   }, []);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 40;
-  const ToGame = (e: any) => {
-    console.log(e);
-    socket.emit('game_in', e.target.id);
-    mobxstore.setgame(e.target.id);
+  const ToGame = (game: string) => {
+    console.log(game);
+    socket.emit('game_in', game);
+    mobxstore.setgame(game);
   };
   socket.on('game_ready', (data) => {
     console.log('받음', data, router.pathname);
@@ -32,11 +32,26 @@ const WaitRoom = () => {
       console.log('여기는 다른곳');
       return;
     }
+    // '초성게임', '줌인아웃게임', '기억력게임', '인물사진게임', '동물사진게임', '지령게임'
     switch (data) {
       case '인물사진게임':
         router.push(`/game/human`);
         break;
-
+      case '초성게임':
+        router.push(`/game/word`);
+        break;
+      case '줌인아웃게임':
+        router.push(`/game/zuminout`);
+        break;
+      case '기억력게임':
+        router.push(`/game/memory`);
+        break;
+      case '동물사진게임':
+        router.push(`/game/animal`);
+        break;
+      case '지령게임':
+        router.push(`/game/command`);
+        break;
       default:
         break;
     }
@@ -49,6 +64,7 @@ const WaitRoom = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  console.log(mobxstore.gamelist[1]);
   return useObserver(() => (
     <>
       {Desktop ? (
@@ -57,49 +73,25 @@ const WaitRoom = () => {
             <p className="font-bold text-3xl"> 게임을 선택해주세요</p>
           </div>
           <Slider {...settings}>
-            <div>
-              <button className="w-full h-1/3 flex justify-center items-center">
-                <img
-                  src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRVFdmpZNGftstd93HpVQ9euoXauL2rmPDm02eIGSC6gh31jXIp35VNWfExDEw4GUNb2kfpn-uEcQ&usqp=CAc "
-                  alt="asd"
-                />
-              </button>
-            </div>
-            <div className="">
-              <div
-                id="인물사진게임"
-                onClick={(e) => {
-                  ToGame(e);
-                }}
-                className="w-full btn flex justify-center items-center ">
-                <div>2</div>
-              </div>
-            </div>
-            <div>
-              <h3>3</h3>
-            </div>
-            <div>
-              <h3>4</h3>
-            </div>
-            <div>
-              <h3>5</h3>
-            </div>
-            <div>
-              <h3>6</h3>
-            </div>
+            {mobxstore.gamelist.map((game, idx) => {
+              return (
+                <div key={idx}>
+                  <div
+                    id={game}
+                    onClick={() => {
+                      ToGame(game);
+                    }}
+                    className="w-full h-1/3 flex justify-center items-center flex-col">
+                    <img
+                      src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRVFdmpZNGftstd93HpVQ9euoXauL2rmPDm02eIGSC6gh31jXIp35VNWfExDEw4GUNb2kfpn-uEcQ&usqp=CAc "
+                      alt="asd"
+                    />
+                    <button className="btn ">{game}</button>
+                  </div>
+                </div>
+              );
+            })}
           </Slider>
-          {/* {mobxstore.gamelist.map((game, idx) => {
-                  return (
-                    <div
-                      id={game}
-                      key={idx}
-                      onClick={(e) => {
-                        ToGame(e);
-                      }}>
-                      {game}
-                    </div>
-                  );
-                })} */}
         </>
       ) : (
         <div className="flex items-center justify-center w-full h-full">

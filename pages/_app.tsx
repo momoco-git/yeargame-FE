@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={client}>
-      <div className=" from-red-100 via-red-300 to-blue-500 bg-gradient-to-br h-screen w-screen ">
+      <div className=" from-red-100 via-red-300 to-blue-500 font-new-font bg-gradient-to-br h-screen w-screen relative ">
         <GlobalStyle />
         <Component {...pageProps} />
       </div>

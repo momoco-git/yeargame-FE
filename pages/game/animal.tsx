@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { gameAPI } from '@utils/api';
 import Image from 'next/image';
 
-function GameRoom() {
+function AnimalGame() {
   const { mobxstore } = useStore();
   const admin = mobxstore.currentUser;
   const userRef = useRef<string[]>([]);
@@ -22,7 +22,7 @@ function GameRoom() {
   }, []);
 
   const getContent = async () => {
-    const res = await gameAPI.getContents();
+    const res = await gameAPI.getAnimal();
     console.log(res.data);
     return res.data;
   };
@@ -133,4 +133,4 @@ function GameRoom() {
   ));
 }
 
-export default GameRoom;
+export default AnimalGame;

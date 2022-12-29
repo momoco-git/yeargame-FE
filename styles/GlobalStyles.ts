@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   	font-size: 100%;
   	font: inherit;
   	vertical-align: baseline;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'koreanfont1'
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure, 

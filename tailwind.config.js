@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 module.exports = {
   content: [
     './node_modules/flowbite-react/**/*.js',
@@ -6,6 +7,14 @@ module.exports = {
     './components/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
+    fontFamily: {
+      sans: ['koreanfont1', 'sans-serif'],
+    },
+    extend: {
+      fontFamily: {
+        'new-font': ['koreanfont1', 'sans-serif'],
+      },
+    },
     keyframes: {
       loading_spin: {
         '0%': {

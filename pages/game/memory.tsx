@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { gameAPI } from '@utils/api';
 import Image from 'next/image';
 
-function GameRoom() {
+function MemoryGame() {
   const { mobxstore } = useStore();
   const admin = mobxstore.currentUser;
   const userRef = useRef<string[]>([]);
@@ -22,7 +22,7 @@ function GameRoom() {
   }, []);
 
   const getContent = async () => {
-    const res = await gameAPI.getContents();
+    const res = await gameAPI.getMemory();
     console.log(res.data);
     return res.data;
   };
@@ -117,6 +117,7 @@ function GameRoom() {
           <p>{gameMode}</p> <p>{ItemIndex}번 문제</p>
           <div>
             <div className="">
+              {}
               <img src={List?.imageURL} alt="게임" className="w-1/3 m-auto" />
             </div>
           </div>
@@ -133,4 +134,4 @@ function GameRoom() {
   ));
 }
 
-export default GameRoom;
+export default MemoryGame;
