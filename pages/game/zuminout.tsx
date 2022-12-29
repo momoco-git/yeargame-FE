@@ -111,7 +111,7 @@ function Zuminout() {
     socket.emit('goMenu');
   };
   socket.on('goMenu', () => {
-    router.push('waitroom');
+    router.push('/waitroom');
   });
   return useObserver(() => (
     <>
