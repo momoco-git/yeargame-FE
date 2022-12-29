@@ -12,7 +12,7 @@ import Image from 'next/image';
 function Zuminout() {
   const { mobxstore } = useStore();
   const admin = mobxstore.currentUser;
-  const userRef = useRef<string[]>([]);
+  const [user, setuser] = useState<string[]>([]);
   const router = useRouter();
   const gameMode = mobxstore.currentGame;
   const Desktop: boolean = useMediaQuery({ minWidth: 920 });
@@ -39,7 +39,7 @@ function Zuminout() {
     userList();
   }, []);
   socket.on('getUserList', (data: string[]) => {
-    userRef.current = data;
+    setuser(data);
     return;
   });
   const [answerList, setanswerList] = useState<string[]>([]);
@@ -97,7 +97,7 @@ function Zuminout() {
     socket.emit('userClear');
   };
   socket.on('userClear', () => {
-    userRef.current = [];
+    setuser([]);
   });
   const plusScore = (data: string) => {
     socket.emit('plusScore', data);
@@ -105,7 +105,7 @@ function Zuminout() {
   const [score, setscore] = useState<object[]>([]);
   socket.on('plusScore', (data) => {
     setscore(data);
-    console.log(score);
+    console.log('스코어', score);
   });
   const goMenu = () => {
     socket.emit('goMenu');
@@ -142,7 +142,7 @@ function Zuminout() {
           </div>
           <p>점수 추가해주기</p>
           <div className="flex space-x-3">
-            {userRef.current.map((user, idx) => {
+            {user.map((user, idx) => {
               return (
                 <button
                   key={idx}
