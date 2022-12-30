@@ -32,6 +32,10 @@ function BodyGame() {
   const userList = () => {
     if (admin !== 'admin') {
       socket.emit('getUserList', admin);
+    } else {
+      socket.on('getUserList', (data: string[]) => {
+        setuser(data);
+      });
     }
   };
   console.log(List?.imageURL);
@@ -48,20 +52,6 @@ function BodyGame() {
     console.log('받음', data);
     await setanswerList(data);
 
-    // if (Desktop) {
-    //   Swal.fire({
-    //     toast: true,
-    //     title: data,
-    //     position: 'top',
-    //     showConfirmButton: false,
-    //     timer: 2500,
-    //     timerProgressBar: true,
-    //     didOpen: (toast) => {
-    //       toast.addEventListener('mouseenter', Swal.stopTimer);
-    //       toast.addEventListener('mouseleave', Swal.resumeTimer);
-    //     },
-    //   });
-    // }
     return IO().disconnect();
   });
   const sendAnswer = () => {
