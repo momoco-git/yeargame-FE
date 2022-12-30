@@ -52,6 +52,9 @@ const WaitRoom = () => {
       case '지령게임':
         router.push(`/game/command`);
         break;
+      case '몸으로 말해요게임':
+        router.push(`/game/body`);
+        break;
       default:
         break;
     }

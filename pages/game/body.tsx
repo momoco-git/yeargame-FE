@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { gameAPI } from '@utils/api';
 import Image from 'next/image';
 
-function WordGame() {
+function BodyGame() {
   const { mobxstore } = useStore();
   const admin = mobxstore.currentUser;
   const [user, setuser] = useState<string[]>([]);
@@ -22,14 +22,13 @@ function WordGame() {
   }, []);
 
   const getContent = async () => {
-    const res = await gameAPI.getWord();
-
+    const res = await gameAPI.getBody();
+    console.log(res.data);
     return res.data;
   };
 
   const ContentQuery = useQuery([gameMode], getContent, { refetchOnWindowFocus: false });
-  const List = ContentQuery.data?.contents[0].quiz[ItemIndex];
-  console.log(List);
+  const List = ContentQuery.data?.contents[ItemIndex];
   const userList = () => {
     if (admin !== 'admin') {
       socket.emit('getUserList', admin);
@@ -123,7 +122,7 @@ function WordGame() {
             게임선택창으로
           </button>
           <div>정답 목록</div>
-
+          <div className="">{List?.answer}</div>
           <button className="btn btn-primary" onClick={clearAnswerList}>
             정답자 목록 비우기
           </button>
@@ -185,13 +184,14 @@ function WordGame() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center space-y-3 items-center w-full h-full">
+          <div className="flex flex-col justify-center items-center space-y-4 w-full h-full">
             <p>{gameMode}</p> <p>{ItemIndex}번 문제</p>
             <div>
               <div className="">
-                <span style={{ fontSize: '50vmin' }} className="btn font-thin  h-full">
-                  {List}
-                </span>
+                <p style={{ fontSize: '10vmin' }} className="block m-auto text-center">
+                  {List?.answer}
+                </p>
+                <img src={List?.imageURL} alt="게임" style={{ width: '50vw', height: '50vh' }} className=" m-auto" />
               </div>
             </div>
           </div>
@@ -208,4 +208,4 @@ function WordGame() {
   ));
 }
 
-export default WordGame;
+export default BodyGame;

@@ -102,7 +102,7 @@ function MemoryGame() {
   const plusScore = (data: string) => {
     socket.emit('plusScore', data);
   };
-  const [score, setscore] = useState<object[]>([]);
+  const [score, setscore] = useState<{ user: string; score: number }[]>([]);
   socket.on('plusScore', (data) => {
     setscore(data);
     console.log('스코어', score);
@@ -111,7 +111,7 @@ function MemoryGame() {
     socket.emit('goMenu');
   };
   socket.on('goMenu', () => {
-    router.push('waitroom');
+    router.push('/waitroom');
   });
   return useObserver(() => (
     <>
@@ -122,7 +122,7 @@ function MemoryGame() {
             게임선택창으로
           </button>
           <div>정답 목록</div>
-          <div className="">{List?.answer}</div>
+          <div className="text-black">{List?.answer}</div>
           <button className="btn btn-primary" onClick={clearAnswerList}>
             정답자 목록 비우기
           </button>
@@ -159,14 +159,25 @@ function MemoryGame() {
         </div>
       ) : Desktop ? (
         <>
-          <div className="absolute top-0 left-0 w-full h-1/5 flex justify-center items-center ">
-            <div className="bg-orange-300 rounded-lg w-1/3 h-1/2 flex justify-center items-center flex-col">
+          <div className="absolute top-0 left-0 w-full h-20 flex justify-center items-center ">
+            <div className="bg-orange-300 rounded-lg w-1/2 h-2/3 flex justify-center items-center ">
+              {score?.map((i, idx) => {
+                return (
+                  <div key={idx} className="flex space-x-2">
+                    <span>{i?.user}</span> : <span className="pr-4">{i.score}점</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="absolute top-20 left-0 w-full h-28 flex justify-center items-center ">
+            <div className="bg-orange-300 rounded-lg w-1/2 h-1/2 flex justify-center items-center flex-col">
               <p>누른 순서</p>
               <div className="flex  justify-center items-center space-x-3">
                 {answerList?.map((user, idx) => {
                   return (
                     <p className="btn-secondary font-new-font rounded-lg w-auto p-1" key={idx}>
-                      {user}
+                      {user}팀
                     </p>
                   );
                 })}
@@ -177,7 +188,12 @@ function MemoryGame() {
             <p>{gameMode}</p> <p>{ItemIndex}번 문제</p>
             <div>
               <div className="">
-                <img src={List?.imageURL} alt="게임" className="w-1/3 m-auto" />
+                <img
+                  src={List?.imageURL}
+                  alt="게임"
+                  style={{ width: '60vw', height: '60vh' }}
+                  className=" rounded-xl m-auto"
+                />
               </div>
             </div>
           </div>

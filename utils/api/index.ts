@@ -7,4 +7,5 @@ export const gameAPI = {
   getWord: () => api.get('/content/word'),
   getMemory: () => api.get('/content/memory'),
   getZuminout: () => api.get('/content/zuminout'),
+  getBody: () => api.get('/content/body'),
 };
