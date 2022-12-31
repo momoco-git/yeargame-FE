@@ -49,7 +49,7 @@ const WaitRoom = () => {
       case '동물사진게임':
         router.push(`/game/animal`);
         break;
-      case '지령게임':
+      case '동서남북게임':
         router.push(`/game/command`);
         break;
       case '몸으로 말해요게임':
